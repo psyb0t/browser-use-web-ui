@@ -1,6 +1,40 @@
 from dotenv import load_dotenv
 load_dotenv()
 import argparse
+
+# Monkeypatch playwright to always use patchright
+try:
+    # Import both libraries
+    import patchright.async_api as patchright_api
+    import playwright.async_api as playwright_api
+    
+    # Store originals
+    original_patchright = patchright_api.async_playwright
+    original_playwright = playwright_api.async_playwright
+    
+    def force_patchright():
+        print("🕶️ PATCHRIGHT HERE!!!!! Playwright call hijacked!")
+        return original_patchright()
+    
+    # Force ALL playwright calls to use patchright
+    playwright_api.async_playwright = force_patchright
+    
+    # Also patch any browser-use imports
+    def patch_browser_use():
+        try:
+            from browser_use.browser import types as browser_types
+            browser_types.async_playwright = force_patchright
+            print("✅ Successfully patched browser_use.browser.types")
+        except ImportError:
+            pass
+    
+    patch_browser_use()
+    
+    print("✅ Successfully hijacked all playwright calls to patchright")
+    
+except ImportError as e:
+    print(f"⚠️ Failed to setup playwright hijack: {e}")
+
 from src.webui.interface import theme_map, create_ui
 
 

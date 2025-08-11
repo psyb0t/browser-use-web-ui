@@ -74,6 +74,12 @@ def create_browser_settings_tab(webui_manager: WebuiManager):
                 info="Disable browser security",
                 interactive=True
             )
+            stealth = gr.Checkbox(
+                label="Stealth Mode",
+                value=False,
+                info="Use patchright for anti-detection (bot evasion)",
+                interactive=True
+            )
 
     with gr.Group():
         with gr.Row():
@@ -139,6 +145,7 @@ def create_browser_settings_tab(webui_manager: WebuiManager):
             keep_browser_open=keep_browser_open,
             headless=headless,
             disable_security=disable_security,
+            stealth=stealth,
             save_recording_path=save_recording_path,
             save_trace_path=save_trace_path,
             save_agent_history_path=save_agent_history_path,
@@ -158,4 +165,5 @@ def create_browser_settings_tab(webui_manager: WebuiManager):
     headless.change(close_wrapper)
     keep_browser_open.change(close_wrapper)
     disable_security.change(close_wrapper)
+    stealth.change(close_wrapper)
     use_own_browser.change(close_wrapper)

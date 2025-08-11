@@ -43,6 +43,11 @@ class CustomBrowser(Browser):
     async def _setup_builtin_browser(self, playwright: Playwright) -> PlaywrightBrowser:
         """Sets up and returns a Playwright Browser instance with anti-detection measures."""
         assert self.config.browser_binary_path is None, 'browser_binary_path should be None if trying to use the builtin browsers'
+        
+        # Check if stealth mode is enabled and log it
+        if hasattr(self.config, 'stealth') and self.config.stealth:
+            logger.info("🕶️ CUSTOM BROWSER STEALTH MODE ACTIVATED!")
+            print("🕶️ CUSTOM BROWSER STEALTH MODE ACTIVATED!")
 
         # Use the configured window size from new_context_config if available
         if (

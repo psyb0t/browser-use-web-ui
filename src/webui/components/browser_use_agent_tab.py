@@ -388,6 +388,7 @@ async def run_agent_task(
     keep_browser_open = get_browser_setting("keep_browser_open", False)
     headless = get_browser_setting("headless", False)
     disable_security = get_browser_setting("disable_security", False)
+    stealth = get_browser_setting("stealth", False)
     window_w = int(get_browser_setting("window_w", 1280))
     window_h = int(get_browser_setting("window_h", 1100))
     cdp_url = get_browser_setting("cdp_url") or None
@@ -465,6 +466,7 @@ async def run_agent_task(
                 config=BrowserConfig(
                     headless=headless,
                     disable_security=disable_security,
+                    stealth=stealth,
                     browser_binary_path=browser_binary_path,
                     extra_browser_args=extra_args,
                     wss_url=wss_url,
